@@ -1,0 +1,65 @@
+samples: config/samples.tsv
+units: config/units.tsv
+  
+ref:
+# ensembl species name
+  species: strongyloides_ratti
+  # ensembl release
+  release: 60
+  # genome build
+  build: S_ratti_ED321_v5_0_4
+
+filtering:
+  # Set to true in order to apply machine learning based recalibration of
+  # quality scores instead of hard filtering.
+  vqsr: false
+  hard:
+    # hard filtering as outlined in GATK docs
+    # (https://gatkforums.broadinstitute.org/gatk/discussion/2806/howto-apply-hard-filters-to-a-call-set)
+    snvs:
+      "QD < 2.0 || FS > 50.0 || MQ < 40.0 || MQRankSum > -6.0 && MQRankSum < 4.0 || -4.0 < ReadPosRankSum && ReadPosRankSum < 4.0 || ExcessHet > 5.0 || N_alleles < 2 && N_alleles > 2 || AC < 2 || GQ < 10"
+    indels:
+      "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
+
+processing:
+  remove-duplicates: false
+  # Uncomment and point to a bed file with, e.g., captured regions if necessary,
+  # see https://gatkforums.broadinstitute.org/gatk/discussion/4133/when-should-i-use-l-to-pass-in-a-list-of-intervals.
+  # restrict-regions: captured_regions.bed
+  # If regions are restricted, uncomment this to enlarge them by the given value in order to include
+  # flanking areas.
+  # region-padding: 100
+
+params:
+  gatk:
+    HaplotypeCaller: "-ploidy 2"
+    GenomicsDBImport: ""
+    GenotypeGVCFs: ""
+  trimmomatic:
+    pe:
+      trimmer:
+        # See trimmomatic manual for adding additional options, e.g. for adapter trimming.
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"
+    se:
+      trimmer:
+        # See trimmomatic manual for adding additional options, e.g. for adapter trimming.
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"
+  vep:
+    plugins:
+      # Add any plugin from https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html
+      # Plugin args can be passed as well, e.g. "LoFtool,path/to/custom/scores.txt".
+      ""
+    # extra command line arguments (e.g. --sift, see docs)
+    extra: ""
+    release: "113"
+  plink:
+    HaplotypeBlock:
+      options: ""
+    IndepPairwise:
+      options: ""
