@@ -10,6 +10,8 @@ This is a modified version from https://github.com/snakemake-workflows/dna-seq-g
 
 The usage of this workflow is described in the [Snakemake Workflow Catalog](https://snakemake.github.io/snakemake-workflow-catalog/?usage=snakemake-workflows%2Fdna-seq-gatk-variant-calling).
 
-Quick explanation: Go to the config folder and follow the instructions in there to get started. Should be run with the flag --use-conda to automatically create, manage, and activate the software environments specified in Snakemake rules. Run with the flag --conda-frontend conda if mamba doesn't work (due to new mamba versions issues described in: https://github.com/mamba-org/mamba/issues/3520)
+Quick explanation: 
+- Go to the config folder and follow the instructions in there to get started. Should be run with the flag --use-conda to automatically create, manage, and activate the software environments specified in Snakemake rules. Run with the flag --conda-frontend conda if mamba doesn't work (due to new mamba versions issues described in: https://github.com/mamba-org/mamba/issues/3520).
+- Starting fastq files should be deposited in a folder called fastq, with the subfolder named after the species (example: fastq/strongyloides_ratti).
 
 If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) repository and its DOI (see above).
